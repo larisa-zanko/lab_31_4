@@ -37,7 +37,6 @@ import java.util.regex.*;
 */
 
 public class Main {
-public class Main {
     public static void main(String[] args) {
         String input = readFile("input.txt");
         StringBuilder result = new StringBuilder();
