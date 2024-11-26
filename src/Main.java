@@ -17,33 +17,40 @@ import java.util.regex.*;
 2. Из заданной строки удалить из каждой группы идущих подряд цифр, в которой более двух цифр, все цифры, начиная с третьей.
 3. Из заданной строки удалить из каждой группы идущих подряд цифр все незначащие нули.
 
-Структура программы:
 
-Для чтения файла input.txt используется метод readFile .
-Программа вызывает три метода для обработки строки, каждый из которых соответствует одному из заданий:
-Для записи результатов работы программы в файл output.txt используется метод writeFile
-                     Методы программы
-1. readFile - читает файл построчно и объединяет строки в одну.
-2. Delete_Symbols-использует регулярное выражение \\(.*?\\), которое находит и удаляет содержимое скобок.
-3. Delete_Numbers-использует регулярное выражение (\\d{2})(\\d+),
-которое сохраняет только первые две цифры в каждой группе и удаляет остальные.
-4. Delete_Zero - использует регулярное выражение \\b0+(\\d), чтобы найти и удалить нули, предшествующие цифрам.
-5. writeFile - метод используется для записи результатов работы программы в файл output.txt
-6. Для удобства я вывожу содержимое "input.txt"  и "output.txt" на экран.
+Новое Задание:
+Для выполнения используйте регулярные выражения. Каждое задание должно быть реализовано в отдельном методе.
+
+Входные данные:
+Строка получается из текстового файла input.txt.
+
+Выходные данные:
+Результаты работы методов записываются в выходной текстовый файл output.txt.
+
+Задачи:
+Удаление символов внутри круглых скобок:
+Из заданной строки исключите все символы, расположенные внутри круглых скобок ( и ), включая сами скобки. Например, строка Привет (мир) должна преобразоваться в Привет .
+Сокращение последовательностей цифр:
+Из заданной строки удалите из каждой группы идущих подряд цифр, в которой более двух цифр, все цифры, начиная с третьей. Например, строка 123456 должна преобразоваться в 124.
+Удаление незначащих нулей:
+Из заданной строки удалите из каждой группы идущих подряд цифр все незначащие нули. Например, строка 00123 04500 0009 должна преобразоваться в 123 450 9.
 */
 
 public class Main {
-
+public class Main {
     public static void main(String[] args) {
         String input = readFile("input.txt");
-        StringBuilder string = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
-        string.append(Delete_Symbols(input)).append("\n");
-        string.append(Delete_Numbers(input)).append("\n");
-        string.append(Delete_Zero(input)).append("\n");
+        // Выполнение всех заданий
+        result.append(removeSymbolsInBrackets(input)).append("\n");
+        result.append(removeExcessDigits(input)).append("\n");
+        result.append(removeLeadingZeros(input)).append("\n");
 
-        writeFile("output.txt", string.toString());
+        // Запись результата в выходной файл
+        writeFile("output.txt", result.toString());
 
+        // Вывод содержимого входного и выходного файлов
         System.out.println("Содержимое input.txt:");
         System.out.println(input);
         System.out.println("\nСодержимое output.txt:");
@@ -65,19 +72,19 @@ public class Main {
         return content.toString().trim(); // Удаляем последний перевод строки
     }
 
-    // Метод 1: Исключение символов внутри круглых скобок
-    private static String Delete_Symbols(String input) {
-        return input.replaceAll("\\(.*?\\)", "");
+    // 1. Исключение символов внутри круглых скобок
+    private static String removeSymbolsInBrackets(String input) {
+        return input.replaceAll("\\(.*?\\)", ""); // Удаляем текст в круглых скобках, включая сами скобки
     }
 
-    // Метод 2: Удаление лишних цифр в группах
-    private static String Delete_Numbers(String input) {
-        return input.replaceAll("(\\d{2})(\\d+)", "$1");
+    // 2. Удаление лишних цифр в группах
+    private static String removeExcessDigits(String input) {
+        return input.replaceAll("(\\d{2})(\\d+)", "$1"); // Сохраняем только первые две цифры в группе
     }
 
-    // Метод 3: Удаление незначащих нулей
-    private static String Delete_Zero(String input) {
-        return input.replaceAll("\\b0+(\\d)", "$1");
+    // 3. Удаление незначащих нулей
+    private static String removeLeadingZeros(String input) {
+        return input.replaceAll("\\b0+(\\d)", "$1"); // Заменяем нули, перед которыми следует цифра
     }
 
     // Метод для записи в файл
@@ -88,5 +95,4 @@ public class Main {
             e.printStackTrace();
         }
     }
-
 }
